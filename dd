@@ -1,2 +1,37 @@
-#!/bin/sh
-# dd -- deamon deamon
+#!/bin/bash
+
+# Start a job and return its pid.
+# It need a param -- the job command name.
+# eg: start /bin/sh test.sh
+function start {
+    local cli=$@
+    nohup $cli & > /dev/null
+}
+
+# stop a job
+function stop {
+    # @todo
+    echo 1
+}
+
+# restart a job
+function restart {
+    # @todo
+    echo 1
+}
+
+# reload the job list
+function restart {
+    # @todo
+    echo 1
+}
+
+# print help information
+function help {
+    # @todo
+    echo 1
+}
+
+cat $1|while read line;do
+    start $line
+done
