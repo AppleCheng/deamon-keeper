@@ -40,8 +40,8 @@ function help {
 # param 2 -- job list path.
 # eg: run start ./job.txt
 function run {
-    cat $1|while read line;do
-        $2 $line
+    cat $2|while read line;do
+        $1 $line
     done   
 }
 
@@ -81,3 +81,5 @@ then
 else
     help 2
 fi
+
+run $1 $2
