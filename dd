@@ -5,14 +5,24 @@
 # eg: start /bin/sh test.sh
 function start {
     local CLI=$@
-    nohup $CLI & > /dev/null
+    PID=`pgrep -f "$CLI"`
+
+    if [ -z "$PID" ]
+    then
+        nohup $CLI > /dev/null &
+    fi
 }
 
 # stop a job
 function stop {
     local CLI=$@
     PID=`pgrep -f "$CLI"`
-    kill -9 $PID
+
+    if [ -n "$PID" ]
+    then
+        kill -9 $PID
+    fi
+
 }
 
 # restart a job
