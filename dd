@@ -11,9 +11,13 @@ function start {
     then
         nohup $CLI > /dev/null &
     fi
+
+    echo $PID
 }
 
-# stop a job
+# Stop a job
+# It need a param -- the job command name.
+# eg: stop /bin/sh test.sh
 function stop {
     local CLI=$@
     PID=`pgrep -f "$CLI"`
@@ -25,14 +29,16 @@ function stop {
 
 }
 
-# restart a job
+# Restart a job
+# It need a param -- the job command name.
+# eg: restart /bin/sh test.sh
 function restart {
     local CLI=$@
     stop $CLI
     start $CLI
 }
 
-# print help information
+# Print help information
 function help {
     case $1 in
     "1")
@@ -45,7 +51,7 @@ function help {
     exit
 }
 
-# do action with all command
+# Do action with all command
 # param 1 -- action.eg:start, stop, restart
 # param 2 -- job list path.
 # eg: run start ./job.txt
@@ -54,9 +60,6 @@ function run {
         $1 $line
     done   
 }
-
-ACTION=$1
-JOB_LIST_FILE=$2
 
 # check the first param.
 if [ -z $1 ]
