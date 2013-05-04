@@ -10,6 +10,7 @@ function start {
     if [ -z "$PID" ]
     then
         nohup $CLI > /dev/null &
+        PID=`pgrep -f "$CLI"`
     fi
 
     echo $PID
