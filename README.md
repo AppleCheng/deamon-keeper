@@ -1,4 +1,4 @@
-#Deamon Deamon -- The deamon of services
+#Ddeamon -- The deamon of services and jobs
 ##What's it?
 + It can manage many services in the same time.
 + It can do many actions,such as starting, stoping, restarting and so on.
