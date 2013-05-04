@@ -4,34 +4,80 @@
 # It need a param -- the job command name.
 # eg: start /bin/sh test.sh
 function start {
-    local cli=$@
-    nohup $cli & > /dev/null
+    local CLI=$@
+    nohup $CLI & > /dev/null
 }
 
 # stop a job
 function stop {
-    # @todo
-    echo 1
+    local CLI=$@
+    PID=`pgrep -f "$CLI"`
+    kill -9 $PID
 }
 
 # restart a job
 function restart {
-    # @todo
-    echo 1
-}
-
-# reload the job list
-function restart {
-    # @todo
-    echo 1
+    local CLI=$@
+    stop $CLI
+    start $CLI
 }
 
 # print help information
 function help {
-    # @todo
-    echo 1
+    case $1 in
+    "1")
+        echo "You can do actions below: start | stop | restart";;
+    "2")
+        echo "You must give me the file path which including the jobs list.";;
+    *)
+        echo "Ooooops!";;
+    esac
+    exit
 }
 
-cat $1|while read line;do
-    start $line
+# do action with all command
+# param 1 -- action.eg:start, stop, restart
+# param 2 -- job list path.
+# eg: run start ./job.txt
+function run {
+    cat $1|while read line;do
+        $2 $line
+    done   
+}
+
+ACTION=$1
+JOB_LIST_FILE=$2
+
+# check the first param.
+if [ -z $1 ]
+then
+    help 1
+fi
+
+IS_AVAILABLE=0
+for ACTION in start stop restart
+do
+    if [ $ACTION = $1 ]
+    then
+        IS_AVAILABLE=1
+        break
+    fi
 done
+
+if [ $IS_AVAILABLE == 0 ]
+then
+    help 1
+fi
+
+# check the second param
+if [ -z $2 ]
+then
+    help 2
+fi
+
+if [ -r $2 ]
+then
+    echo 'running'
+else
+    help 2
+fi
