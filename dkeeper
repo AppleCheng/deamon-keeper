@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Start a job and return its pid.
-# It need a param -- the job command name.
-# eg: start /bin/sh test.sh
 function start {
     local CLI=$@
     PID=`pgrep -f "$CLI"`
@@ -16,9 +13,6 @@ function start {
     echo $PID
 }
 
-# Stop a job
-# It need a param -- the job command name.
-# eg: stop /bin/sh test.sh
 function stop {
     local CLI=$@
     PID=`pgrep -f "$CLI"`
@@ -30,16 +24,12 @@ function stop {
 
 }
 
-# Restart a job
-# It need a param -- the job command name.
-# eg: restart /bin/sh test.sh
 function restart {
     local CLI=$@
     stop $CLI
     start $CLI
 }
 
-# Print help information
 function help {
     case $1 in
     "1")
@@ -52,10 +42,6 @@ function help {
     exit
 }
 
-# Do action with all command
-# param 1 -- action.eg:start, stop, restart
-# param 2 -- job list path.
-# eg: run start ./job.txt
 function run {
     cat $2|while read line;do
         $1 $line
