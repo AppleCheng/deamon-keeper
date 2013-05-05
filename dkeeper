@@ -1,7 +1,4 @@
 #!/bin/bash
-#
-# eg 1: nohup dkeeper start ./jobs.txt > /dev/null &
-# eg 2: dkeeper stop ./jobs.txt
 
 function start {
     local CLI=$@
@@ -40,11 +37,22 @@ function help {
     "2")
         echo "You must give me the file path which including the jobs list.";;
     "3")
-        echo "Option -s is required.";;
+        echo "Option -s is required.It can be: start, stop, restart";;
     "4")
-        echo "Option -f is required.";;
-    *)
-        echo "Ooooops!";;
+        echo "Option -f is required.It must be a file and readable.";;
+    "5")
+        echo "Usage: dkeeper -s <action> -f <file>"
+        echo "       deeeper [options]"
+        echo ""
+        echo "Example:"
+        echo "eg1: nohup dkeeper -s start -f ./jobs.txt > /dev/null &"
+        echo "eg2: dkeeper -s stop -f ./jobs.txt"
+        echo ""
+        echo "Options:"
+        echo "  -s <action>         The action you want to do.It can be: start, stop, restart."
+        echo "  -f <file>           The file path which is including the jobs or services."
+        echo "  -v                  Print version information."
+        echo "  -h                  Print this document."
     esac
     exit
 }
@@ -55,7 +63,13 @@ function run {
     done   
 }
 
-while getopts :s:f:v p
+
+if [ $# -eq 0 ]
+then
+    help 5
+fi
+
+while getopts :s:f:vh p
 do
     case $p in
     s)
@@ -99,6 +113,8 @@ do
     v)
         echo "Deamon Keeper. version: 1.0"
         exit 0;;
+    h)
+        help 5;;
     esac
 done
 
