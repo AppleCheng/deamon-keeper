@@ -55,7 +55,7 @@ function run {
     done   
 }
 
-while getopts s:f:v p
+while getopts :s:f:v p
 do
     case $p in
     s)
@@ -99,8 +99,6 @@ do
     v)
         echo "Deamon Keeper. version: 1.0"
         exit 0;;
-    *)
-        echo "Unkonwn option: $p";;
     esac
 done
 
