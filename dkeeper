@@ -39,6 +39,10 @@ function help {
         echo "You can do actions below: start | stop | restart";;
     "2")
         echo "You must give me the file path which including the jobs list.";;
+    "3")
+        echo "Option -s is required.";;
+    "4")
+        echo "Option -f is required.";;
     *)
         echo "Ooooops!";;
     esac
@@ -51,49 +55,74 @@ function run {
     done   
 }
 
-# check the action.
-if [ -z $1 ]
-then
-    help 1
-fi
-
-IS_AVAILABLE=0
-for ACTION in start stop restart
+while getopts s:f:v p
 do
-    if [ $ACTION = $1 ]
-    then
-        IS_AVAILABLE=1
-        break
-    fi
+    case $p in
+    s)
+        # check the action.
+        if [ -z $OPTARG ]
+        then
+            help 1
+        fi
+
+        IS_AVAILABLE=0
+        for ACTION in start stop restart
+        do
+            if [ $ACTION = $OPTARG ]
+            then
+                IS_AVAILABLE=1
+                break
+            fi
+        done
+
+        if [ $IS_AVAILABLE == 0 ]
+        then
+            help 1
+        fi
+
+        OPTION_ACT=$OPTARG;;
+    f)
+        # check the job list file path.
+        if [ -z $OPTARG ]
+        then
+            help 2
+        fi
+
+        if [ -r $OPTARG ] && [ -f $OPTARG ]
+        then
+            echo 'running'
+        else
+            help 2
+        fi
+
+        OPTION_FILE=$OPTARG;;
+    v)
+        echo "Deamon Keeper. version: 1.0"
+        exit 0;;
+    *)
+        echo "Unkonwn option: $p";;
+    esac
 done
 
-if [ $IS_AVAILABLE == 0 ]
+if [ -z "$OPTION_ACT" ]
 then
-    help 1
+    help 3
 fi
 
-# check the job list file path.
-if [ -z $2 ]
+if [ -z "$OPTION_FILE" ]
 then
-    help 2
-fi
-
-if [ -r $2 ] && [ -f $2 ]
-then
-    echo 'running'
-else
-    help 2
+    help 4
 fi
 
 # OK, Let's go!
-if [ $1 = "start" ]
+if [ $OPTION_ACT = "start" ]
 then
     while true
     do
-        run $1 $2
+        run $OPTION_ACT $OPTION_FILE
     done
 fi
 
-run $1 $2
+run $OPTION_ACT $OPTION_FILE
 
 # end of this script
