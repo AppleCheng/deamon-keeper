@@ -42,7 +42,7 @@ function help {
         echo "Option -f is required.It must be a file and readable.";;
     "5")
         echo "Usage: dkeeper -s <action> -f <file>"
-        echo "       deeeper [options]"
+        echo "       dkeeper [options]"
         echo ""
         echo "Example:"
         echo "eg1: nohup dkeeper -s start -f ./jobs.txt > /dev/null &"
