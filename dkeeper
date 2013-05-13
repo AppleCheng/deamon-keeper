@@ -78,14 +78,16 @@ EOF
         echo "  -v                  Print version information."
         echo "  -h                  Print this document.";;
     "6")
-        echo "-t must be a number and greater than 0."
+        echo "-t must be a number and greater than 0.";;
+    "7")
+        echo "-t is useless.It's useful just when -d is declared.";;
     esac
     exit
 }
 
 function run {
-    cat $2|while read line;do
-        $1 $line
+    cat $2|while read job;do
+        $1 $job
     done   
 }
 
@@ -168,6 +170,11 @@ fi
 if [ -z "$OPTION_FILE" ]
 then
     help 4
+fi
+
+if [ $OPTION_TIME -gt 0 ] && [ $OPTION_DEAMON -eq 0 ]
+then
+    help 7
 fi
 
 # OK, Let's go!
