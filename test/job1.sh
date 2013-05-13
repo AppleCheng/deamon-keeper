@@ -1,2 +1,2 @@
-echo "job1" > job1.log
+echo "job1" > /tmp/job1.log
 sleep 1200
