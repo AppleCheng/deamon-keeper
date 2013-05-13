@@ -67,7 +67,7 @@ EOF
         echo "       dkeeper [options]"
         echo ""
         echo "Example:"
-        echo "eg1: nohup dkeeper -s start -f ./jobs.txt > /dev/null &"
+        echo "eg1: nohup dkeeper -s start -f ./jobs.txt -d -t 3 &"
         echo "eg2: dkeeper -s stop -f ./jobs.txt"
         echo ""
         echo "Options:"
