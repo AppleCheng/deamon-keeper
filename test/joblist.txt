@@ -1,0 +1,2 @@
+/bin/sh /Users/liuxd/Documents/deamon-keeper/test/job1.sh
+/bin/sh /Users/liuxd/Documents/deamon-keeper/test/job2.sh
