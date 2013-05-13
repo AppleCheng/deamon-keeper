@@ -74,7 +74,9 @@ EOF
         echo "  -s <action>         The action you want to do.It can be: start, stop, restart."
         echo "  -f <file>           The file path which is including the jobs or services."
         echo "  -v                  Print version information."
-        echo "  -h                  Print this document."
+        echo "  -h                  Print this document.";;
+    "6")
+        echo "-t must be a number and greater than 0."
     esac
     exit
 }
@@ -87,6 +89,9 @@ function run {
 
 # deamon sign, not deamon as default.
 OPTION_DEAMON=0
+
+# the seconds while sleeping.
+OPTION_TIME=0
 
 if [ $# -eq 0 ]
 then
@@ -137,6 +142,14 @@ do
     d)
         # whether running as deamon
         OPTION_DEAMON=1;;
+    t)
+        # the seconds while sleeping.
+        if [ $OPTARG -gt 0 ] 2> /dev/null
+        then
+            OPTION_TIME=$OPTARG
+        else
+            help 6
+        fi;;
     v)
         echo "Deamon Keeper 1.0"
         exit 0;;
@@ -163,6 +176,12 @@ then
         while true
         do
             run $OPTION_ACT $OPTION_FILE
+
+            if [ $OPTION_TIME -gt 0 ]
+            then
+                echo "sleep $OPTION_TIME"
+                sleep $OPTION_TIME
+            fi
         done
     else
         echo "Restart can't be running as deamon."
